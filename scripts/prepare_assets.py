@@ -8,7 +8,7 @@ root = Path(__file__).resolve().parents[1]
 assets = root / "public" / "assets"
 assets.mkdir(parents=True, exist_ok=True)
 
-for name in ["AI Skilling Module 1.pptx", "AI Skilling Module 2.pptx", "AI Skilling Module 3.pptx", "AI Skilling - Combined.pptx", "AI SKILLING CONCEPT NOTE.docx", "AI Skilling Project Planning.xlsx"]:
+for name in ["AI Skilling Module 1.pptx", "AI Skilling Module 2.pptx", "AI Skilling Module 3.pptx", "AI Skilling - Combined.pptx", "AI SKILLING CONCEPT NOTE.docx"]:
     shutil.copy2(src / name, assets / name)
 
 wb = load_workbook(src / "AI Skilling Project Planning.xlsx", data_only=True, read_only=True)
@@ -41,6 +41,8 @@ for row in wa.iter_rows(min_row=3, values_only=True):
     item['Pre-assessment Score'] = item.get('Pre-Assessment Score', '')
     item['Post-assessment Score'] = item.get('Post ASsessment Score', '')
     item.pop('Phone number', None)
+    item.pop('Name of the participant', None)
+    item.pop('Name', None)
     attendance.append(item)
 
 (root / "app" / "data.ts").write_text("export const sessions = " + json.dumps(sessions, ensure_ascii=False) + " as const;\nexport const attendance = " + json.dumps(attendance, ensure_ascii=False) + " as const;\n", encoding="utf-8")
