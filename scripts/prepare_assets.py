@@ -40,6 +40,7 @@ for row in wa.iter_rows(min_row=3, values_only=True):
     item['Name'] = item.get('Name of the participant', '')
     item['Pre-assessment Score'] = item.get('Pre-Assessment Score', '')
     item['Post-assessment Score'] = item.get('Post ASsessment Score', '')
+    item.pop('Phone number', None)
     attendance.append(item)
 
 (root / "app" / "data.ts").write_text("export const sessions = " + json.dumps(sessions, ensure_ascii=False) + " as const;\nexport const attendance = " + json.dumps(attendance, ensure_ascii=False) + " as const;\n", encoding="utf-8")
