@@ -38,3 +38,14 @@ revoke select, update, delete on public.feedback_responses from anon, authentica
 revoke select, update, delete on public.assessment_responses from anon, authenticated;
 grant insert on public.feedback_responses to anon, authenticated;
 grant insert on public.assessment_responses to anon, authenticated;
+
+create table if not exists public.teacher_attendance (
+  id uuid primary key default gen_random_uuid(), created_at timestamptz not null default now(),
+  session_date text, conducted_by text, module_number text, state text, school text not null,
+  participant_type text, teacher_name text not null, pre_assessment_score text, post_assessment_score text
+);
+alter table public.teacher_attendance enable row level security;
+drop policy if exists "public can upload attendance" on public.teacher_attendance;
+create policy "public can upload attendance" on public.teacher_attendance for insert to anon, authenticated with check (true);
+revoke select, update, delete on public.teacher_attendance from anon, authenticated;
+grant insert on public.teacher_attendance to anon, authenticated;
